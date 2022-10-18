@@ -12,11 +12,15 @@ class Why:
         return False
         
     def remove_SBAR(self, tree):
+        '''
+            This removes the subtree, but also stores
+            the subtree inside answer, and it is ready
+            to be used as an Answer.
+        '''
         sentence_structure = []
         sentence_by_chunk = []
         answer=[]
         for t in tree[0]:
-            print(t.label)
             if t.label() != "SBAR" and t.label() != "VP" and t.label() != ",":
                 sentence_by_chunk.append(" ".join(t.leaves()))
                 sentence_structure.append(t.label())

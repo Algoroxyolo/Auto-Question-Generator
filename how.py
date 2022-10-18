@@ -6,12 +6,20 @@ class How:
             self.nlp=stanza.Pipeline(processors='tokenize,pos,lemma,pos,constituency,depparse,ner', tokenize_pretokenized=True)
             pass
     def is_how_many(self,text,tree):
+        '''
+            Find numbers in string and figure out whether 
+            the sentence is binary-able or not
+        '''
         for i in self.nlp(text).sentences[0].words:
             print(i.deprel,i.text)
             if i.deprel =='nummod':
                 return binaries.Binary().isBinary(tree)
         return False
     def main(self,text):
+        '''
+            Find the number phrase and alter the string
+            to a question form
+        '''
         doc=self.nlp(text)
         tree = doc.sentences[0].constituency
         tree = Tree.fromstring(str(tree))

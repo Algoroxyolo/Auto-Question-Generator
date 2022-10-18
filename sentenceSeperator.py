@@ -2,6 +2,11 @@ from nltk.tokenize import sent_tokenize,word_tokenize
 from datasets import load_dataset
 import string
 def tokenizer(path,dataset,top_K=False,k=None):
+    '''
+        tokenize the dataset and filter the good
+        sentences. If top_k is true, find the 
+        top k sentences
+    '''
     sentencelst=[]
     data=load_dataset(path,data_files={"validation": dataset})
     for datum in data["validation"]:
@@ -24,7 +29,7 @@ def tokenizer(path,dataset,top_K=False,k=None):
 
     if top_K==True:
         result=[]
-        sentences_top_k = sorted(set1, key = len)[:10]
+        sentences_top_k = sorted(set1, key = len)[:k]
         for i in range(len(sentences_top_k)):
             result.append(word_tokenize(sentences_top_k[i]))
         return result

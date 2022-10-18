@@ -2,6 +2,9 @@ import stanza
 from sentenceSeperator import tokenizer
 from nltk.tree import Tree as Tree
 class parser():
+    '''
+        Dead code. Don't Look
+    '''
     def __init__(self,dir,lstData):
         self.data=tokenizer(dir,lstData,top_K=True,k=10)
         pass

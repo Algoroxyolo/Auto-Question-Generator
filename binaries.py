@@ -7,6 +7,13 @@ class Binary():
         self.nlp=stanza.Pipeline(processors='tokenize,pos,constituency,lemma', tokenize_pretokenized=True)
         pass
     def main(self,text):
+        '''
+            Determine if the text is a Not sentence or not.
+            Put the sentence into parse tree and through the tree
+            inside the is_binary function, if it can be turned
+            into a binary question, then turn it into a do question
+            or is question.
+        '''
         doc=self.nlp(text)
         text = doc.sentences[0]
         NOT=False
@@ -17,7 +24,7 @@ class Binary():
         if not isBinary:
             print('can not form binary question!')
             return False
-        return (self.bin_q_type(tree,NOT))
+        return (self.question_type(tree,NOT))
 
     def isBinary(self, tree):
         # can be binary question only if there is a noun and a verb
@@ -29,12 +36,13 @@ class Binary():
             if t.label() == "VP":
                 VP = 1
         is_binary = NP and VP
-        return (is_binary)
+        return is_binary
     
-    def bin_q_type(self, tree,NOT=False):
+    def question_type(self, tree,NOT=False):
         '''
             If the input has a be-verb we do a be-question
-            else we do a 
+            else we do a
+
         '''
         (sentence_structure, text) = self.get_sentence_structure(tree)
         verb_index = sentence_structure.index("VB")
@@ -46,6 +54,9 @@ class Binary():
             return self.do_question(text, verb_index, noun_index,NOT)
     
     def be_question(self, sentence_by_chunk, verb_index, noun_index,NOT=False):
+        '''
+            Find verb;delete NOT; swap verb and noun
+        '''
         verb = sentence_by_chunk[verb_index]
         if NOT:
             del sentence_by_chunk[verb_index+1]
@@ -57,6 +68,10 @@ class Binary():
         return sent
 
     def do_question(self, sentence_by_chunk, verb_index, np_index,NOT=False):
+        '''
+            Find verb;find verb tense; change verb tense into present
+            Set do tense; add do in front 
+        '''
         verb = sentence_by_chunk[verb_index]
         tenses=self.nlp(' '.join(sentence_by_chunk)).sentences[0].words[verb_index].xpos
         if tenses=='VBP':
@@ -95,6 +110,9 @@ class Binary():
         return res
     
     def get_sentence_structure(self, tree):
+        '''
+            Spliting the sentences based on sentence structure.
+        '''
         sentence_structure = []
         sentence_by_chunk = []
         for t in tree[0]:
@@ -104,10 +122,10 @@ class Binary():
             else:
                 sentence_by_chunk.append(" ".join(t.leaves()))
                 sentence_structure.append(t.label())
-        #print(sentence_structure, sentence_by_chunk)
+
         return (sentence_structure, sentence_by_chunk)
 
-print(Binary().main('Is your name Sunaya .'))
+print(Binary().main('Rainier is very Horny right now .'))
 
 
 
