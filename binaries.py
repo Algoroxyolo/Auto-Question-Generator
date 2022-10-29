@@ -1,7 +1,7 @@
 from nltk.tree import Tree as Tree
 import stanza
 
-be_verb = ['is','am','was','are','were','can','could','will','would','']
+be_verb = ['is','am','was','are','were','can','could','will','would']
 class Binary():
     def __init__(self):
         self.nlp=stanza.Pipeline(processors='tokenize,pos,constituency,lemma', tokenize_pretokenized=True)
@@ -16,6 +16,7 @@ class Binary():
         '''
         doc=self.nlp(text)
         text = doc.sentences[0]
+        print(text.text)
         NOT=False
         if 'not' in text.text:
             NOT=True
@@ -73,17 +74,20 @@ class Binary():
             Set do tense; add do in front 
         '''
         verb = sentence_by_chunk[verb_index]
-        tenses=self.nlp(' '.join(sentence_by_chunk)).sentences[0].words[verb_index].xpos
-        if tenses=='VBP':
+        print(' '.join(sentence_by_chunk))
+        tenses=self.nlp(verb).sentences[0].words[0].xpos
+        print(tenses)
+        if tenses=='VBP'or tenses=='VB':
             tense='present'
             person=1
-        elif tenses=='VBD':
+        elif tenses=='VBN':
             tense='past'
             person=1
         elif tenses=='VBZ':
             tense='present'
             person=3
         else:
+            print(verb,tenses)
             #This means that the code have some problem
             return False
         present_verb=str(self.nlp(verb).sentences[0].words[0].lemma)
@@ -125,7 +129,6 @@ class Binary():
 
         return (sentence_structure, sentence_by_chunk)
 
-print(Binary().main('Rainier is very Horny right now .'))
-
+print(Binary().main('Thomas have kidney issues because he masterbate too much .'))
 
 

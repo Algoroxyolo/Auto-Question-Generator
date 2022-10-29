@@ -10,7 +10,7 @@ class How:
             Find numbers in string and figure out whether 
             the sentence is binary-able or not
         '''
-        for i in self.nlp(text).sentences[0].words:
+        for i in self.nlp(text[0]).sentences[0].words:
             print(i.deprel,i.text)
             if i.deprel =='nummod':
                 return binaries.Binary().isBinary(tree)
@@ -20,7 +20,7 @@ class How:
             Find the number phrase and alter the string
             to a question form
         '''
-        doc=self.nlp(text)
+        doc=self.nlp(text[0])
         tree = doc.sentences[0].constituency
         tree = Tree.fromstring(str(tree))
         if not self.is_how_many(text,tree):
@@ -29,13 +29,13 @@ class How:
         subject=self.find_subject(doc)
         sub=subject[1]
         subject=' '.join(subject)+' '
-        result=binaries.Binary().main(text).replace(subject,'')
-        return 'how many ' +sub+' '+result
+        result=binaries.Binary().main(text[0]).replace(subject,'')
+        return ['how many ' +sub+' '+result,text[1],subject[0]]
     def find_subject(self,doc):
         for i in range(len(doc.sentences[0].words)):
             if doc.sentences[0].words[i].deprel =='nummod':
                 return [doc.sentences[0].words[i].text,doc.sentences[0].words[i+1].text]
 
 
-print(How().main(''))
+#print(How().main(['The term project will take place at 4 weeks at the end of the semester .',1]))
 'how many weeks will the term project take place over at the end of the semester'

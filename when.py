@@ -19,34 +19,41 @@ class When:
             if i.type=="DATE" or i.type=='TIME':
                 a=1
                 print('checkPoint 1')
+        
         tree = doc.sentences[0].constituency
         tree = Tree.fromstring(str(tree))
+        print(tree)
         if a==1:
             for t in tree[0]:
-                print(t.label())
-                if t.label() == "VP":
-                    for subtree in t:
-                        if subtree.label()=='PP':
-                            time=' '.join(subtree.leaves())
-                            a+=1
-                            print('check point 2')
                 if t.label()=='PP':
-                    time=' '.join(t.leaves())
+                    time=" ".join(t.leaves())
                     a+=1
-                    print('check point 2')
+                    break
+                if t.label()=='VP':
+                    for subtree in t:
+                        print(subtree.label())
+                        if subtree.label()=='PP':
+                            time=" ".join(subtree.leaves())
+                            a+=1
+                            break
+                        if subtree.label()=='VP':
+                           for subsubtree in subtree:
+                                if subsubtree.label()=='PP':
+                                    print("a")
+                                    time=" ".join(subsubtree.leaves())
+                                    a+=1
+                                    break
         if a==2:
             return Binary().isBinary(tree),time
-        return False,'FUCK YOU'
+        return False,None
     def main(self, text):
-        doc = self.nlp(text)
+        doc = self.nlp(text[0])
         when,time=self.is_when(doc)
+        print(when)
         if not when:
             print ("It could not be converted to when question.")
             return None
         res= Binary().main(doc.sentences[0].text)
         res=res.replace(time,'')
-        return "When "+res
+        return ["When "+res,text[1],time]
        
-
-
-print(When().main('15-122 is at 8 am'))

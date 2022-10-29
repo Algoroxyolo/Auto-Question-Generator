@@ -12,9 +12,12 @@ class WhatWho:
            not a person. If it is a person, return true and the noun.
 
         '''
-        doc=self.nlp(text)
+        print(text[0])
+        doc=self.nlp(text[0])
         tree=Tree.fromstring(str(doc.sentences[0].constituency))
+        print(tree)
         for t in tree[0]:
+            print(t)
             if t.label() == "NP":
                 res=[]
                 for subtree in t:
@@ -28,12 +31,13 @@ class WhatWho:
     def __main__(self,text):
         (isWho,res)=self.is_who(text)
         if isWho:
-            text=text.replace(res,'Who')
+            text[0]=text[0].replace(res,'Who')
+            text.append(res)
         else:
-            text=text.replace(res,'What')
-        text=text.replace('.','?')
-        text=text.replace('!','?')
+            text[0]=text[0].replace(res,'What')
+            text.append(res)
+        text[0]=text[0].replace('.','?')
+        text[0]=text[0].replace('!','?')
         return text
         
         
-print(WhatWho().__main__("Sunaya is a CMU student ?"))

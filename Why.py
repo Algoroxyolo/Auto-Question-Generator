@@ -28,6 +28,7 @@ class Why:
                 for subtree in t:
                     if subtree.label() != "SBAR":
                         sentence_by_chunk.append(" ".join(subtree.leaves()))
+                        print(sentence_by_chunk)
                         sentence_structure.append(subtree.label())
                     else:
                         for subsubtree in subtree:
@@ -36,15 +37,19 @@ class Why:
         return (sentence_structure, sentence_by_chunk,answer)
 
     def main(self, text):
-        tree = self.nlp(text).sentences[0].constituency
+        tree = self.nlp(text[0]).sentences[0].constituency
         tree = Tree.fromstring(str(tree))
+        print(tree)
         if not self.is_why(tree):
             print ("It could not be converted to why question.")
             return None 
         (sentence_structure, sentence_by_chunk,answer) = self.remove_SBAR(tree)
         sent = " ".join(sentence_by_chunk)
+        answer=' '.join(answer)
+        print(sent)
         sent = Binary().main(sent)
-        return ("Why " + sent)
+        print(sent)
+        return ["Why " + sent,text[1],answer]
 
 
-print(Why().main('I have six courses because I am freshmen .'))
+print(Why().main(['Thomas have kidney issues because he masterbate too much .',100]))
