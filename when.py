@@ -2,8 +2,8 @@ from nltk.tree import Tree as Tree
 from binaries import Binary
 import stanza
 class When:
-    def __init__(self) -> None:
-        self.nlp=stanza.Pipeline(processors='tokenize,pos,constituency,lemma,ner', tokenize_pretokenized=True)
+    def __init__(self,pipeline):
+        self.nlp=pipeline
         pass
     def is_when(self,doc):
         '''
@@ -18,6 +18,8 @@ class When:
             print(i.type)
             if i.type=="DATE" or i.type=='TIME':
                 a=1
+                print(i.text)
+                ref=i.text
                 print('checkPoint 1')
         
         tree = doc.sentences[0].constituency
@@ -34,8 +36,9 @@ class When:
                         print(subtree.label())
                         if subtree.label()=='PP':
                             time=" ".join(subtree.leaves())
-                            a+=1
-                            break
+                            if ref in time:
+                                a+=1
+                                break
                         if subtree.label()=='VP':
                            for subsubtree in subtree:
                                 if subsubtree.label()=='PP':
@@ -44,7 +47,7 @@ class When:
                                     a+=1
                                     break
         if a==2:
-            return Binary().isBinary(tree),time
+            return True,time
         return False,None
     def main(self, text):
         doc = self.nlp(text[0])

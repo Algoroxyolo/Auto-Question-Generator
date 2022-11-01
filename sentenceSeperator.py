@@ -2,7 +2,7 @@ from nltk.tokenize import sent_tokenize,word_tokenize
 import nltk
 from datasets import load_dataset
 import string
-def tokenizer(text,top_k=False,k=None):
+def tokenizer(text,filename,top_k=False,k=None):
     '''
         tokenize the dataset and filter the good
         sentences. If top_k is true, find the 
@@ -35,7 +35,7 @@ def tokenizer(text,top_k=False,k=None):
             result.append(sentences_top_k[i])
         return result
     
-    file=open('text.txt','w+')
+    file=open(f'{filename} -t.txt','w+')
     for i in lst2:
         file.write(f'{i[0]}\t{i[1]}\n')
     file.close()

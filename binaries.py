@@ -1,10 +1,9 @@
 from nltk.tree import Tree as Tree
 import stanza
-
 be_verb = ['is','am','was','are','were','can','could','will','would']
 class Binary():
     def __init__(self):
-        self.nlp=stanza.Pipeline(processors='tokenize,pos,constituency,lemma', tokenize_pretokenized=True)
+        self.nlp=stanza.Pipeline(processors='tokenize,pos,constituency,lemma,ner', tokenize_pretokenized=True)
         pass
     def main(self,text):
         '''
@@ -75,12 +74,12 @@ class Binary():
         '''
         verb = sentence_by_chunk[verb_index]
         print(' '.join(sentence_by_chunk))
-        tenses=self.nlp(verb).sentences[0].words[0].xpos
+        tenses=self.nlp("I "+verb).sentences[0].words[1].xpos
         print(tenses)
         if tenses=='VBP'or tenses=='VB':
             tense='present'
             person=1
-        elif tenses=='VBN':
+        elif tenses=='VBD':
             tense='past'
             person=1
         elif tenses=='VBZ':
@@ -128,7 +127,5 @@ class Binary():
                 sentence_structure.append(t.label())
 
         return (sentence_structure, sentence_by_chunk)
-
-print(Binary().main('Thomas have kidney issues because he masterbate too much .'))
 
 

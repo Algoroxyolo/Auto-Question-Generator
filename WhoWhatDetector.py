@@ -3,8 +3,8 @@ from binaries import *
 import stanza
 
 class WhatWho:
-    def __init__(self) -> None:
-        self.nlp=stanza.Pipeline(processors='tokenize,pos,lemma,pos,constituency,depparse,ner', tokenize_pretokenized=True)
+    def __init__(self,pipeline) -> None:
+        self.nlp=pipeline
         pass
     def is_who(self,text):
         '''

@@ -2,8 +2,8 @@ import stanza
 from nltk.tree import Tree as Tree
 import binaries
 class How:
-    def __init__(self) -> None:
-            self.nlp=stanza.Pipeline(processors='tokenize,pos,lemma,pos,constituency,depparse,ner', tokenize_pretokenized=True)
+    def __init__(self,pipeline) -> None:
+            self.nlp=pipeline
             pass
     def is_how_many(self,text,tree):
         '''
@@ -37,5 +37,5 @@ class How:
                 return [doc.sentences[0].words[i].text,doc.sentences[0].words[i+1].text]
 
 
-#print(How().main(['The term project will take place at 4 weeks at the end of the semester .',1]))
+#print(How(stanza.Pipeline(processors='tokenize,pos,lemma,pos,constituency,depparse,ner', tokenize_pretokenized=True)).main(['I take 6 courses next semester .',1]))
 'how many weeks will the term project take place over at the end of the semester'

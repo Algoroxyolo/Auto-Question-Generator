@@ -2,8 +2,8 @@ from nltk.tree import Tree as Tree
 from binaries import Binary
 import stanza
 class Why:
-    def __init__(self) -> None:
-        self.nlp=stanza.Pipeline(processors='tokenize,pos,constituency,lemma', tokenize_pretokenized=True)
+    def __init__(self,pipeline) -> None:
+        self.nlp=pipeline
         pass
     def is_why(self, tree):
         for t in tree.subtrees(lambda t: t.label() == "SBAR"):
@@ -50,6 +50,3 @@ class Why:
         sent = Binary().main(sent)
         print(sent)
         return ["Why " + sent,text[1],answer]
-
-
-print(Why().main(['Thomas have kidney issues because he masterbate too much .',100]))
