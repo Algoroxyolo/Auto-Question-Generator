@@ -3,7 +3,7 @@ This is a project adapted from the term project of 11-411 in Carnegie Mellon Uni
 
 ## libaries
 The projects utlizes a range of libaries:
-      pyaudio  
+      pyaudio    
       os  
       speech_recognition  
       tkinter  
