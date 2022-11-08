@@ -1,0 +1,4 @@
+I live in China.	1
+I went to the Bay area to get a job.	2
+The Bay area is really bad place for me.	3
+I do not like the Bay area.	4
