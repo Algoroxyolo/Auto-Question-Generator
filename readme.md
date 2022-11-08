@@ -3,15 +3,15 @@ This is a project adapted from the term project of 11-411 in Carnegie Mellon Uni
 
 ## libaries
 The projects utlizes a range of libaries:
-    pyaudio
-    os
-    speech_recognition
-    tkinter
-    time
-    stanza
-    nltk
-    mataplotlib
-    Collecton
+    pyaudio  
+    os  
+    speech_recognition  
+    tkinter  
+    time  
+    stanza  
+    nltk  
+    mataplotlib  
+    Collecton  
 ## How to run
 run python GUI.py in CMD
 
