@@ -11,7 +11,8 @@ The projects utlizes a range of libaries:
     stanza  
     nltk  
     mataplotlib  
-    Collecton  
+    Collecton
+    pip install requirements.txt -r  
 ## How to run
 run python GUI.py in CMD
 

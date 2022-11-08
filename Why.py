@@ -48,10 +48,7 @@ class Why:
             return False 
         (sentence_structure, sentence_by_chunk,answer) = self.remove_SBAR(tree)
         sent = " ".join(sentence_by_chunk)
-        print(sent)
         answer=' '.join(answer)
-        print(answer)
         sent = Binary(self.nlp).main(sent)
-        print(sent)
         return ["Why " + sent,text[1],answer]
     

@@ -18,20 +18,26 @@ class How:
         '''
             Find the number phrase and alter the string
             to a question form
+            
         '''
         doc=self.nlp(text[0])
         tree = doc.sentences[0].constituency
         tree = Tree.fromstring(str(tree))
         if not self.is_how_many(text,tree):
             return None 
-        subject=self.find_subject(doc)
-        sub=subject[1]
-        subject=' '.join(subject)+' '
-        result=binaries.Binary(self.nlp).main(text[0]).replace(subject,'')
-        return ['how many ' +sub+' '+result,text[1],subject[0]]
-    def find_subject(self,doc):
-        for i in range(len(doc.sentences[0].words)):
-            if doc.sentences[0].words[i].deprel =='nummod':
-                return [doc.sentences[0].words[i].text,doc.sentences[0].words[i+1].text]
+        subject=self.find_subject(tree)
+        sub=' '.join(subject[1:])
+        subject=' '.join(subject)
+        result=binaries.Binary(self.nlp).main(text[0])
+        result=result.replace(subject,'')
+        return ['how many ' +sub+' '+result,text[1],subject]
+    def find_subject(self,tree):
+        for t in tree[0]:
+            if t.label()=='VP':
+                for subtree in t:
+                    if subtree.label()=='NP':
+                        return subtree.leaves()
 
 
+        
+print(How(stanza.Pipeline(processors='tokenize,pos,lemma,pos,constituency,depparse,ner', tokenize_pretokenized=True)).main(['Thomas has 16 sweet apples',1]))

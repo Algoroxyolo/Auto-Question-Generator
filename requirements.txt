@@ -1,0 +1,7 @@
+datasets==2.4.0
+matplotlib==3.4.3
+nltk==3.6.5
+pyaudio==0.2.12
+SpeechRecognition==3.8.1
+stanza==1.4.2
+~yaudio==0.2.12

@@ -8,14 +8,12 @@ class Where:
     def is_where(self,doc):
         '''
             Scan through the sentence, if the sentence have 
-            Time or date go on and check if it has a positional
-            indicator. If also that, check for the sentence is
-            binary-able or not.
+            location or a GPE go on and check if it has a positional
+            indicator.
         '''
         a=0
         location=''
         for i in doc.sentences[0].ents:
-            print(doc.sentences[0].ents)
             if i.type=="LOC" or i.type=='GPE':
                 a=1
                 ref=i.text
