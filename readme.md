@@ -12,8 +12,7 @@ The projects utlizes a range of libaries:
     nltk  
     mataplotlib  
     Collecton
+## How to install libaries
     pip install requirements.txt -r  
-## How to run
-run python GUI.py in CMD
-
-##
+## How to run the project
+    python GUI.py 
