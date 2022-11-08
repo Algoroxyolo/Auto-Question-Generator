@@ -119,11 +119,17 @@ class AudioScreen:
         self.returnButton.place(x=120,y=180,width=120,height=60)
     
     def TurnBack(self):
+        '''
+            Puts the text on to clipboard and closes the window
+        '''
         self.entryText.clipboard_clear()
         self.entryText.clipboard_append(self.entryText.get(1.0,tkinter.END))
         self.root.destroy()
 
     def Audio2Text(self):
+        '''
+            This function animates the progress bar
+        '''
         self.progressbar=tkinter.ttk.Progressbar(self.root,length=240)
         self.progressbar['maximum']=100
         self.progressbar.place(x=0,y=80)
@@ -219,12 +225,15 @@ class TextFrame():
             self.text[i]=self.text[i].split('\t')
         for i in self.text:
             self.textBox.insert(tkinter.END,i[0])
-        self.time=3
+        self.time=7
         self.countdown()
         self.file=file.replace('-t','-q')
         WhowantsToBeAMillionaire(question[self.file])
 
     def countdown(self):
+        '''
+            Countdown 
+        '''
         for i in range(self.time):
             self.time-=1
             self.textFrame.update()

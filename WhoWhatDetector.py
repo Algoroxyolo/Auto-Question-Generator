@@ -10,6 +10,8 @@ class WhatWho:
         '''
            determine if the noun of the sentence is a person or 
            not a person. If it is a person, return true and the noun.
+           else decides whether it is a location or something else.
+           We also look at whether noun phrase is a pronoun or not.
 
         '''
         doc=self.nlp(text[0])

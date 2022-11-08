@@ -46,7 +46,7 @@ class Where:
     def main(self, text):
         '''
             Find the time component in the sentence.
-            assemble the sentence into a when question
+            assemble the sentence into a where question
 
         '''
         doc = self.nlp(text[0])

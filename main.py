@@ -17,7 +17,7 @@ class main:
     def __main__(self,text,filename):
         '''
             For each sentence inputed try to get each sentence type.
-            Put valid questions into the question list.
+            Put valid questions into the question list. Shuffles the list
         '''
         lst=tokenizer(text,filename)
         questionList=[]
@@ -28,6 +28,8 @@ class main:
                 questionLst.append(self.WhatWHo.__main__(d))
                 d=i
                 questionLst.append(When(self.pipeline).main(d))
+                # the number in date messes up the How function
+                # if there is a date, we do not look at how function
                 if When(self.pipeline).main(d)==True:
                     d=i
                     questionLst.append(How(self.pipeline).main(d))
