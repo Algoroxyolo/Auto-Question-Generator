@@ -1,0 +1,8 @@
+Why did he get kicked out of the school.	2	Because Thomas is stupid
+Where did Alice and Bob find Thomas 	5	in China.
+Because Thomas is stupid, Who got kicked out of tWho school.	2	he
+Who was abandoned on Monday because his mother hated him.	4	Thomas
+Who is stupid.	1	Thomas
+When was Thomas abandoned  because his mother hated him.	4	on Monday
+Who bought 7 apples on Sunday.	3	Thomas
+Who found Thomas in China.	5	Alice and Bob
