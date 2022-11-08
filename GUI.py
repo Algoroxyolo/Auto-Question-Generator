@@ -137,7 +137,8 @@ class AudioScreen:
         self.entryText.insert('1.0',self.record_audio())
     def record_audio(self,wave_out_path="audio\output.wav",record_second=10):
         '''
-            record audio and recognize the audio to text 
+            record audio and recognize the audio to text
+            adapted from https://zhuanlan.zhihu.com/p/92604225
         '''
         p = pyaudio.PyAudio()
         stream = p.open(format=pyaudio.paInt16,channels=1,
