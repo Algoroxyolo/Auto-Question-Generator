@@ -3,39 +3,50 @@ from when import When
 from Why import Why
 from binaries import Binary
 from how import How
-import evaluation
+from beautification import beautify
 from WhoWhatDetector import WhatWho
+from where import Where
 import stanza
+import random
 class main:
     def __init__(self):
         self.pipeline=stanza.Pipeline(processors='tokenize,pos,lemma,pos,constituency,depparse,ner', tokenize_pretokenized=True)
         self.WhatWHo=WhatWho(self.pipeline)
-        self.binary=Binary()
+        self.binary=Binary(self.pipeline)
         pass
     def __main__(self,text,filename):
+        '''
+            For each sentence inputed try to get each sentence type.
+            Put valid questions into the question list.
+        '''
         lst=tokenizer(text,filename)
         questionList=[]
         for i in lst:
-            print(i)
             d=i.copy()
             if self.binary.main(d[0]):
-                lst1=[]
-                lst1.append(self.WhatWHo.__main__(d))
+                questionLst=[]
+                questionLst.append(self.WhatWHo.__main__(d))
                 d=i
-                lst1.append(When(self.pipeline).main(d))
+                questionLst.append(When(self.pipeline).main(d))
                 d=i
-                lst1.append(How(self.pipeline).main(d))
+                questionLst.append(How(self.pipeline).main(d))
                 d=i
-                lst1.append(Why(self.pipeline).main(d))
+                questionLst.append(Why(self.pipeline).main(d))
                 d=i
-                for j in lst1:
-                    print(j)
-                    if j!=None:
-                        questionList.append(j)
+                questionLst.append(Where(self.pipeline).main(d))
+                d=i
+                for j in questionLst:
+                    if j!=None and j!=False:
+                        questionList.append([beautify(j[0])]+j[1:])
+        random.shuffle(questionList)
         return self.output(questionList,filename)
     
     def output(self,questionlist,filename):
-        file=open(f'{filename} -q.txt','w+')
+        '''
+            output the questions in a seperated file
+            tag the question as -q
+        '''
+        file=open(f'QuestionFile\{filename} -q.txt','w+')
         for i in questionlist:
             file.write(f'{i[0]}\t{i[1]}\t{i[2]}\n')
         file.close()

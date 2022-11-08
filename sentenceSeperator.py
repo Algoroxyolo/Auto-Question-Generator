@@ -1,5 +1,4 @@
 from nltk.tokenize import sent_tokenize,word_tokenize
-import nltk
 from datasets import load_dataset
 import string
 def tokenizer(text,filename,top_k=False,k=None):
@@ -17,8 +16,8 @@ def tokenizer(text,filename,top_k=False,k=None):
                 sentence.replace('{','')
                 sentence.replace('}','')
                 sentence.replace('\n','')
-                sentence.replace(',',' , ')
-                sentence.replace('.',' . ')
+                sentence.replace(',','')
+                sentence.replace('.','')
                 lst1.append(sentence)
     lst2=[]
     set1=[]
@@ -34,8 +33,8 @@ def tokenizer(text,filename,top_k=False,k=None):
         for i in range(len(sentences_top_k)):
             result.append(sentences_top_k[i])
         return result
-    
-    file=open(f'{filename} -t.txt','w+')
+    #open a file and save it as a text 
+    file=open(f'TextFile\{filename} -t.txt','w+')
     for i in lst2:
         file.write(f'{i[0]}\t{i[1]}\n')
     file.close()

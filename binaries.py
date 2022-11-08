@@ -2,8 +2,8 @@ from nltk.tree import Tree as Tree
 import stanza
 be_verb = ['is','am','was','are','were','can','could','will','would']
 class Binary():
-    def __init__(self):
-        self.nlp=stanza.Pipeline(processors='tokenize,pos,constituency,lemma,ner', tokenize_pretokenized=True)
+    def __init__(self,pipeline):
+        self.nlp=pipeline
         pass
     def main(self,text):
         '''
@@ -15,14 +15,10 @@ class Binary():
         '''
         doc=self.nlp(text)
         text = doc.sentences[0]
-        print(text.text)
         NOT=False
-        if 'not' in text.text:
-            NOT=True
         tree = Tree.fromstring(str(doc.sentences[0].constituency))
         isBinary=self.isBinary(tree)
         if not isBinary:
-            print('can not form binary question!')
             return False
         return (self.question_type(tree,NOT))
 
@@ -55,7 +51,7 @@ class Binary():
     
     def be_question(self, sentence_by_chunk, verb_index, noun_index,NOT=False):
         '''
-            Find verb;delete NOT; swap verb and noun
+            Find verb; swap verb and noun
         '''
         verb = sentence_by_chunk[verb_index]
         if NOT:
@@ -63,7 +59,6 @@ class Binary():
         noun = sentence_by_chunk[noun_index]
         sentence_by_chunk[verb_index] = noun
         sentence_by_chunk[noun_index] = verb
-        sentence_by_chunk[-1] = "?"
         sent = " ".join(sentence_by_chunk)
         return sent
 
@@ -73,9 +68,7 @@ class Binary():
             Set do tense; add do in front 
         '''
         verb = sentence_by_chunk[verb_index]
-        print(' '.join(sentence_by_chunk))
         tenses=self.nlp("I "+verb).sentences[0].words[1].xpos
-        print(tenses)
         if tenses=='VBP'or tenses=='VB':
             tense='present'
             person=1
@@ -86,7 +79,7 @@ class Binary():
             tense='present'
             person=3
         else:
-            print(verb,tenses)
+            print('ERRRORRRRRRRR!')
             #This means that the code have some problem
             return False
         present_verb=str(self.nlp(verb).sentences[0].words[0].lemma)
@@ -98,7 +91,6 @@ class Binary():
             sent.insert(np_index, "does")
         else :
             sent.insert(np_index, "do")
-        sent[-1]= "?"
         sent = " ".join(sent)
         return sent 
     

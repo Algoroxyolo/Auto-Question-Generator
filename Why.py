@@ -24,29 +24,35 @@ class Why:
             if t.label() != "SBAR" and t.label() != "VP" and t.label() != ",":
                 sentence_by_chunk.append(" ".join(t.leaves()))
                 sentence_structure.append(t.label())
-            elif t.label() == "VP":
+            if t.label() == "VP":
                 for subtree in t:
-                    if subtree.label() != "SBAR":
+                    if subtree.label() != "SBAR" and subtree.label() != 'VP':
                         sentence_by_chunk.append(" ".join(subtree.leaves()))
-                        print(sentence_by_chunk)
                         sentence_structure.append(subtree.label())
+                    elif subtree.label() == 'VP':
+                        for subsubtree in subtree:
+                            if subsubtree.label() != "SBAR" :
+                                sentence_by_chunk.append(" ".join(subsubtree.leaves()))
+                                sentence_structure.append(subsubtree.label())
+                            else:
+                                answer.append(" ".join(subsubtree.leaves()))
                     else:
                         for subsubtree in subtree:
-                            print('subsub',subsubtree.label())
                             answer.append(" ".join(subsubtree.leaves()))
         return (sentence_structure, sentence_by_chunk,answer)
 
     def main(self, text):
         tree = self.nlp(text[0]).sentences[0].constituency
         tree = Tree.fromstring(str(tree))
-        print(tree)
         if not self.is_why(tree):
-            print ("It could not be converted to why question.")
-            return None 
+            return False 
         (sentence_structure, sentence_by_chunk,answer) = self.remove_SBAR(tree)
         sent = " ".join(sentence_by_chunk)
-        answer=' '.join(answer)
         print(sent)
-        sent = Binary().main(sent)
+        answer=' '.join(answer)
+        print(answer)
+        sent = Binary(self.nlp).main(sent)
         print(sent)
         return ["Why " + sent,text[1],answer]
+    
+print(Why(stanza.Pipeline(processors='tokenize,pos,lemma,pos,constituency,depparse,ner', tokenize_pretokenized=True)).main(['Thomas is stupid because his mother drank too much',1]))

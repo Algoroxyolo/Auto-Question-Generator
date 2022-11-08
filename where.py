@@ -1,11 +1,11 @@
 from nltk.tree import Tree as Tree
 from binaries import Binary
 import stanza
-class When:
+class Where:
     def __init__(self,pipeline):
         self.nlp=pipeline
         pass
-    def is_when(self,doc):
+    def is_where(self,doc):
         '''
             Scan through the sentence, if the sentence have 
             Time or date go on and check if it has a positional
@@ -13,9 +13,10 @@ class When:
             binary-able or not.
         '''
         a=0
-        time=''
+        location=''
         for i in doc.sentences[0].ents:
-            if i.type=="DATE" or i.type=='TIME':
+            print(doc.sentences[0].ents)
+            if i.type=="LOC" or i.type=='GPE':
                 a=1
                 ref=i.text
         tree = doc.sentences[0].constituency
@@ -23,26 +24,26 @@ class When:
         if a==1:
             for t in tree[0]:
                 if t.label()=='PP':
-                    time=" ".join(t.leaves())
+                    location=" ".join(t.leaves())
                     a+=1
                     break
                 if t.label()=='VP':
                     for subtree in t:
                         if subtree.label()=='PP':
-                            time=" ".join(subtree.leaves())
+                            location=" ".join(subtree.leaves())
                             #make sure that the pp is followed by time
-                            if ref in time:
+                            if ref in location:
                                 a+=1
                                 break
                         if subtree.label()=='VP':
                            for subsubtree in subtree:
                                 if subsubtree.label()=='PP':
-                                    time=" ".join(subsubtree.leaves())
-                                if ref in time:
+                                    location=" ".join(subsubtree.leaves())
+                                if ref in location:
                                     a+=1
                                     break
         if a==2:
-            return True,time
+            return True,location
         return False,None
     def main(self, text):
         '''
@@ -51,10 +52,10 @@ class When:
 
         '''
         doc = self.nlp(text[0])
-        when,time=self.is_when(doc)
+        when,location=self.is_where(doc)
         if not when:
             return False
         res= Binary(self.nlp).main(doc.sentences[0].text)
-        res=res.replace(time,'')
-        return ["When "+res,text[1],time]
-       
+        res=res.replace(location,'')
+        return ["Where "+res,text[1],location]
+    
