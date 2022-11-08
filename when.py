@@ -21,6 +21,7 @@ class When:
         tree = doc.sentences[0].constituency
         tree = Tree.fromstring(str(tree))
         if a==1:
+            print(tree)
             for t in tree[0]:
                 if t.label()=='PP':
                     time=" ".join(t.leaves())
@@ -57,4 +58,4 @@ class When:
         res= Binary(self.nlp).main(doc.sentences[0].text)
         res=res.replace(time,'')
         return ["When "+res,text[1],time]
-       
+    

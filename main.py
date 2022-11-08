@@ -28,8 +28,9 @@ class main:
                 questionLst.append(self.WhatWHo.__main__(d))
                 d=i
                 questionLst.append(When(self.pipeline).main(d))
-                d=i
-                questionLst.append(How(self.pipeline).main(d))
+                if When(self.pipeline).main(d)==True:
+                    d=i
+                    questionLst.append(How(self.pipeline).main(d))
                 d=i
                 questionLst.append(Why(self.pipeline).main(d))
                 d=i

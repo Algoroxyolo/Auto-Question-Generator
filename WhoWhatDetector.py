@@ -14,17 +14,14 @@ class WhatWho:
         '''
         doc=self.nlp(text[0])
         tree=Tree.fromstring(str(doc.sentences[0].constituency))
-        print(tree)
         for t in tree[0]:
             if t.label() == "NP":
                 res=[]
                 for subtree in t:
                     if subtree.label()=="PRP":
                         prp=subtree.leaves()
-                        print(prp)
                     res.append(" ".join(subtree.leaves()))    
         res=' '.join(res)
-        print(res)
         who_tester=self.nlp(res).sentences[0].ents
         for i in who_tester:
             if i.type=='PERSON':

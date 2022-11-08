@@ -6,9 +6,12 @@ class Why:
         self.nlp=pipeline
         pass
     def is_why(self, tree):
-        for t in tree.subtrees(lambda t: t.label() == "SBAR"):
-            if "because" in t.leaves() or "since" in t.leaves() or "so" in t.leaves():
-                    return True
+        reasonLst=['Because','because','Since','since','So','so']
+        for t in tree[0]:
+            if t.label()=='SBAR':
+                for i in reasonLst:
+                    if i in t.leaves():
+                        return True
         return False
         
     def remove_SBAR(self, tree):
@@ -21,6 +24,8 @@ class Why:
         sentence_by_chunk = []
         answer=[]
         for t in tree[0]:
+            if t.label()=='SBAR':
+                answer.append(" ".join(t.leaves()))
             if t.label() != "SBAR" and t.label() != "VP" and t.label() != ",":
                 sentence_by_chunk.append(" ".join(t.leaves()))
                 sentence_structure.append(t.label())
@@ -48,7 +53,8 @@ class Why:
             return False 
         (sentence_structure, sentence_by_chunk,answer) = self.remove_SBAR(tree)
         sent = " ".join(sentence_by_chunk)
-        answer=' '.join(answer)
+        answer=' '.join(answer).replace('.','')
+        answer=answer.replace(',','')
         sent = Binary(self.nlp).main(sent)
         return ["Why " + sent,text[1],answer]
     

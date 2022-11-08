@@ -48,7 +48,7 @@ class questionFrame:
         self.generateButton.place(x=600,y=0,width=120,height=120)
         self.corpusInfo=tkinter.Button(self.question_screen,text='corpus info',command=self.corpus_info)
         self.corpusInfo.place(x=600,y=120,width=120,height=120)
-        self.audio=tkinter.Button(self.question_screen,text='Too lazy to speak',command=self.audioToWord)
+        self.audio=tkinter.Button(self.question_screen,text='Too lazy to type',command=self.audioToWord)
         self.audio.place(x=600,y=240,width=120,height=120)
         self.GoBack=tkinter.Button(self.question_screen,text='return',command=self.return_main)
         self.GoBack.place(x=600,y=360,width=120,height=120)
