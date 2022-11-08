@@ -1,0 +1,6 @@
+Why is Thomas stupid?	2	because his mother drank too much
+Who is abandoned by his parents because he is stupid?	3	Thomas
+Who is stupid?	1	Thomas
+Who is stupid because his mother drank too much?	2	Thomas
+Why is Thomas abandonded?	3	because he is stupid.
+Who found Thomas on the Times Square?	4	Alice and Bob
