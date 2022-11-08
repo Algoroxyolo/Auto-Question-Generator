@@ -40,4 +40,3 @@ class How:
 
 
         
-print(How(stanza.Pipeline(processors='tokenize,pos,lemma,pos,constituency,depparse,ner', tokenize_pretokenized=True)).main(['Thomas has 16 sweet apples',1]))
