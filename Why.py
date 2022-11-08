@@ -55,4 +55,3 @@ class Why:
         print(sent)
         return ["Why " + sent,text[1],answer]
     
-print(Why(stanza.Pipeline(processors='tokenize,pos,lemma,pos,constituency,depparse,ner', tokenize_pretokenized=True)).main(['Thomas is stupid because his mother drank too much',1]))
